@@ -23,7 +23,6 @@ fn parse_rotations(rotation: String) -> (char, isize) {
 pub fn calculate_password() {
     let mut zero_count: usize = 0;
     let mut pass_count: usize = 0;
-    // let mut complete_rotation: usize;
     let mut dial_pos: isize = 50;
     
     let rotations = get_rotations();
@@ -31,7 +30,7 @@ pub fn calculate_password() {
     for rotation in rotations {
         let (dir, mut amt) = parse_rotations(rotation);
 
-        let mut complete_rotation = (amt / MAX_POS).abs() as usize;
+        let mut complete_rotation = (amt / MAX_POS) as usize;
         amt = amt % MAX_POS;
 
         match dir {
