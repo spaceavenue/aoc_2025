@@ -4,7 +4,7 @@ const MAX_POS: isize = 100;
 
 fn get_rotations() -> Vec<String> {
     let args: Vec<String> = env::args().collect();
-    let file_name: &String = &args[1];
+    let file_name: &String = &args[2];
     
     let rotations = fs::read_to_string(file_name).expect("Unable to read file.");
     let vec_rotations: Vec<String> = rotations.lines().map(String::from).collect();

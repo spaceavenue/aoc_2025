@@ -1,8 +1,8 @@
 use std::{env, fs};
 
-pub fn read_id() -> Vec<String> {
+fn read_id() -> Vec<String> {
     let args: Vec<String> = env::args().collect();
-    let file_name: &String = &args[1];
+    let file_name: &String = &args[2];
 
     let ranges: Vec<String> = fs::read_to_string(file_name)
                                 .expect("Unable to read file.")
