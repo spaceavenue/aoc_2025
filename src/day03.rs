@@ -1,19 +1,16 @@
 use std::{env, fs};
 
 
-fn can_split(bank: &str, pending_bats: usize, idx: usize) -> bool {
-    if pending_bats != 1 {
-        if (bank.len() - idx) < pending_bats {
-            return false;
-        }
+fn can_split(bank: &str, pending_bats: u64, idx: usize) -> bool {
+    if ((bank.len() - idx) as u64) < pending_bats && pending_bats != 1 {
+        return false;
     }
     true
 }
 
-fn get_max(bank: &str, pending_bats: usize) -> (usize, usize) {
+fn get_max(bank: &str, pending_bats: u64) -> (usize, u64) {
      //convert (usize, char) -> (usize, usize) idk if this is the best way to do this
-    let mut batteries = bank.char_indices()
-                                                                .map(|item| (item.0, (item.1 as u8 - 48) as usize));
+    let mut batteries = bank.char_indices().map(|item| (item.0, (item.1 as u8 - 48) as u64));
     let mut max = 0;
     let mut max_idx = 0;
 
@@ -26,11 +23,11 @@ fn get_max(bank: &str, pending_bats: usize) -> (usize, usize) {
     (max_idx, max)
 }
 
-fn find_highest(bank: &str, pending_bats: usize) -> usize {
+fn find_highest(bank: &str, pending_bats: u64) -> u64 {
     if pending_bats == 0 { return 0; }
 
     let (max_idx, mut max) = get_max(bank, pending_bats);
-    max = max * 10_usize.pow((pending_bats - 1) as u32);
+    max = max * 10_u64.pow((pending_bats - 1) as u32);
     let new = bank.split_at(max_idx + 1).1;
     
     return max + find_highest(new, pending_bats - 1);
@@ -44,10 +41,10 @@ pub fn get_joltage() {
     let banks: Vec<&str> = data.lines().collect();
 
     let total_joltage_p1 = banks.iter().map(|bank| find_highest(bank, 2))
-                                    .fold(0_usize, |total_joltage, current| total_joltage + current);
+                                    .fold(0_u64, |total_joltage, current| total_joltage + current);
     println!("Total joltage (part 1): {total_joltage_p1}");
 
     let total_joltage_p2 = banks.iter().map(|bank| find_highest(bank, 12))
-                                    .fold(0_usize, |total_joltage, current| total_joltage + current);
+                                    .fold(0_u64, |total_joltage, current| total_joltage + current);
     println!("Total joltage (part 2): {total_joltage_p2}");
 }
