@@ -33,25 +33,9 @@ fn check_substrings(id_str: &str, num: usize) -> bool {
     true
 }
 
-pub fn add_invalid_p1() {
-    let mut sum_invalid: usize = 0;
-
-    let vec_ranges = read_id();
-    
-    for range in vec_ranges {
-        let (first_id, last_id) = separate_id(range);
-        for id in first_id..=last_id {
-            let id_str = id.to_string();
-            if check_substrings(&id_str, 2) {
-                sum_invalid += id;
-            }
-        }
-    }
-    println!("Sum of invalid IDs (part 1): {sum_invalid}");
-}
-
-pub fn add_invalid_p2() {
-    let mut sum_invalid: usize = 0;
+pub fn add_invalid() {
+    let mut sum_invalid_p1 = 0;
+    let mut sum_invalid_p2 = 0;
 
     let vec_ranges = read_id();
     
@@ -60,15 +44,17 @@ pub fn add_invalid_p2() {
         
         for id in first_id..=last_id {
             let id_str = id.to_string();
-            let num_substring = 2..=id_str.len();
-
-            for num in num_substring {
+            if check_substrings(&id_str, 2) {
+                sum_invalid_p1 += id;
+            }
+            for num in 2..=id_str.len() {
                 if check_substrings(&id_str, num) {
-                    sum_invalid += id;
+                    sum_invalid_p2 += id;
                     break
                 }
             }
         }
     }
-    println!("Sum of invalid IDs (part 2): {sum_invalid}");
+    println!("Sum of invalid IDs (part 1): {sum_invalid_p1}");
+    println!("Sum of invalid IDs (part 2): {sum_invalid_p2}");
 }
